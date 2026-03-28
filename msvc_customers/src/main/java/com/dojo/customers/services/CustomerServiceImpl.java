@@ -3,6 +3,8 @@ package com.dojo.customers.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.dojo.customers.entities.Customer;
@@ -23,6 +25,11 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> findAll() {
 		return repository.findAll();
+	}
+
+	@Override
+	public Page<Customer> getCustomerPage(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	@Override

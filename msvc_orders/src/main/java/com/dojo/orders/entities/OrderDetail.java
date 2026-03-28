@@ -18,4 +18,15 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", priceUnit=" + priceUnit +
+               // ", order=" + order +
+                '}';
+    }
 }

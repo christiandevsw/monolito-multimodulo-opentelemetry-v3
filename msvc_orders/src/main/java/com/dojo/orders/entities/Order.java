@@ -20,4 +20,15 @@ public class Order {
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     private List<OrderDetail> details;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", createAt=" + createAt +
+                ", statusOrder='" + statusOrder + '\'' +
+                ", details=" + details +
+                '}';
+    }
 }

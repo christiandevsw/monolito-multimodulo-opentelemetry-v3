@@ -7,6 +7,8 @@ import com.dojo.orders.entities.OrderDetail;
 import com.dojo.orders.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +29,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> listAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public Page<Order> getPageByOrder(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     @Override
