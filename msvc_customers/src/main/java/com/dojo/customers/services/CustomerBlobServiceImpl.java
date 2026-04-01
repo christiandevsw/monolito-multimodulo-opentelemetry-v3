@@ -15,7 +15,7 @@ import java.util.Optional;
 public class CustomerBlobServiceImpl implements CustomerBlobService{
     private BlobContainerClient containerClient;
 
-    public CustomerBlobServiceImpl(@Value("${conection-string.blob.storage}") String connectionString,
+    public CustomerBlobServiceImpl(@Value("${connection-string.blob.storage}") String connectionString,
                                    @Value("${container.name.customer}") String containerName){
         BlobServiceClient serviceClient = new BlobServiceClientBuilder()
                 .connectionString(connectionString)

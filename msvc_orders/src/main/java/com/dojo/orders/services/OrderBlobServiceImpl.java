@@ -16,7 +16,7 @@ import java.util.Optional;
 public class OrderBlobServiceImpl implements OrderBlobService {
     private BlobContainerClient containerClient;
 
-    public OrderBlobServiceImpl(@Value("${conection-string.blob.storage}") String connectionString,
+    public OrderBlobServiceImpl(@Value("${connection-string.blob.storage}") String connectionString,
                                 @Value("${container.name.order}") String containerName){
         BlobServiceClient serviceClient = new BlobServiceClientBuilder()
                 .connectionString(connectionString)
