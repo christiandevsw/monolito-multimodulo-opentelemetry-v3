@@ -32,7 +32,6 @@ jobs:
         with:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
-          exclude: '${{ github.workspace }}/target/*-original.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,6 +45,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: java-app
+<<<<<<< HEAD
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -53,6 +53,15 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B5625ADF231347FDBC952FB539022DC6 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_03C9A488AFC74AE499B6E0B81AA6041E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C2F32A1C800B4DB7A2231CB3E44E5EB0 }}
+=======
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B5625ADF231347FDBC952FB539022DC6 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_03C9A488AFC74AE499B6E0B81AA6041E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C2F32A1C800B4DB7A2231CB3E44E5EB0 }}
+>>>>>>> 7a9bd59c9ab808343d6be2b392ff2f474b268225
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
