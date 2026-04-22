@@ -57,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order save(Long customerId, List<OrderDetail> details) {
         Customer acustomer = customerService.findById(customerId).orElse(null);
+        if (acustomer==null){
+            return null;
+        }
         Order order = new Order();
         order.setCustomerId(acustomer.getId());
         order.setCreateAt(LocalDate.now());

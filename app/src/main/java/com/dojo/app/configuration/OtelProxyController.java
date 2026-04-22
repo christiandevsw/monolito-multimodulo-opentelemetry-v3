@@ -1,7 +1,6 @@
 package com.dojo.app.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,26 +19,32 @@ public class OtelProxyController {
     }
 
     @PostMapping("/traces")
-    public ResponseEntity<byte[]> receiveTraces(
+    public ResponseEntity<String> receiveTraces(
             @RequestBody byte[] payload,
-            @RequestHeader HttpHeaders headers
+            @RequestHeader(value = "Content-Type", defaultValue = "application/json") String contentType
     ) {
-        System.out.println(collectorUrl);
-        System.out.println("Envio de trazas mediante el proxy");
-        HttpHeaders forwardHeaders = new HttpHeaders();
-        forwardHeaders.addAll(headers); // reenviar headers originales
+        try {
+            System.out.println(">>> Envio de trazas mediante el proxy a: " + collectorUrl);
 
-        HttpEntity<byte[]> request = new HttpEntity<>(payload, forwardHeaders);
+            HttpHeaders forwardHeaders = new HttpHeaders();
+            forwardHeaders.set(HttpHeaders.CONTENT_TYPE, contentType); // ← solo Content-Type
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(
-                collectorUrl,
-                HttpMethod.POST,
-                request,
-                byte[].class
-        );
+            HttpEntity<byte[]> request = new HttpEntity<>(payload, forwardHeaders);
 
-        return ResponseEntity
-                .status(response.getStatusCode())
-                .body(response.getBody());
+            ResponseEntity<String> response = restTemplate.exchange(
+                    collectorUrl,
+                    HttpMethod.POST,
+                    request,
+                    String.class
+            );
+
+//            System.out.println(">>> Collector respondió: " + response.getStatusCode());
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+
+        } catch (Exception e) {
+//            System.err.println(">>> ERROR en proxy: " + e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
+
 }

@@ -68,8 +68,13 @@ public class OrderController {
     }
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long customerId, @RequestBody List<OrderDetail> details) {
+    public ResponseEntity<?> createOrder(@PathVariable Long customerId, @RequestBody List<OrderDetail> details) {
         Order o=orderService.save(customerId, details);
+        if(o==null){
+            String message="Cliente con id: "+customerId+" no encontrado!";
+            logger.warn(message);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("Mensaje",message));
+        }
         logger.info("Nueva orden creada: "+ o.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(o);
     }
