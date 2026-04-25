@@ -1,35 +1,24 @@
 <configuration>
 
+    <!-- Appender clásico de consola -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <appender name="OTEL" class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
-        <captureExperimentalAttributes>false</captureExperimentalAttributes>
-        <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>
-        <captureMarkerAttribute>false</captureMarkerAttribute>
-        <captureCodeAttributes>false</captureCodeAttributes>
-        <captureMdcAttributes>*</captureMdcAttributes>  <!-- captura todos los MDC -->
-    </appender>
+    <!-- Appender OpenTelemetry (opcional, si lo usas para trazas) -->
+    <appender name="OTEL" class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender"/>
 
-    <!-- Bajar a DEBUG temporalmente para diagnosticar problemas OTEL -->
-    <logger name="io.opentelemetry" level="DEBUG"/>
+    <!-- Ajustes de nivel de log para librerías comunes -->
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="io.opentelemetry" level="WARN"/>
 
-    <logger name="org.springframework" level="ERROR"/>
-    <logger name="org.hibernate" level="ERROR"/>
-    <logger name="org.apache.catalina" level="ERROR"/>
-    <logger name="org.apache.coyote" level="ERROR"/>
-    <logger name="org.apache.tomcat" level="ERROR"/>
-
-    <!-- additivity=true para que también llegue a CONSOLE y puedas verificar -->
-    <logger name="com.dojo" level="INFO" additivity="true">
-        <appender-ref ref="OTEL"/>
-    </logger>
-
+    <!-- Root logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="OTEL"/>
     </root>
 
 </configuration>
